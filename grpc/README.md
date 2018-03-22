@@ -1,8 +1,119 @@
-1、protobuf是google开发的一个数据传输格式，类似json 
-2、protobuf是二进制的、结构化的，所以比json的数据量更小，也更对象化 
-3、protobuf不是像json直接明文的，这个是定义对象结构，然后由protbuf库去把对象自动转换成二进制，用的时候再自动反解过来的。传输对我们是透明的！我们只管传输的对象就可以了
+
+
+protocol buffers
+
+# 一、先了解几个概念
+
+### RPC
+RPC（Remote Procedure Call）—远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。
+
+### gRPC
+gRPC是一个高性能、通用的开源RPC框架，其由Google主要由开发并基于HTTP/2协议标准而设计，基于ProtoBuf(Protocol Buffers)序列化协议开发，且支持众多开发语言。
+
+* 基于HTTP/2协议提供了更好的强的应用性能（节省带宽，减少TCP请求连接数）
+* 基于ProtoBuf定义服务，面向接口对服务进行顶层设计
+* 支持主流的编程语言，C++,Java,Python,Go,Ruby,Node.js，PHP等, 基于ProtoBuf生成相应的服务端和客户端代码。
+* 相比在使用Restful方式完成服务之间的相互访问，GRPC能提供更好的性能，更低的延迟，并且生来适合与分布式系统。
+* 同时基于标准化的IDL（ProtoBuf）来生成服务器端和客户端代码, ProtoBuf服务定义可以作为服务契约，因此可以更好的支持团队与团队之间的接口设计，开发，测试，协作等等。
+
+
+### protobuf
+
+protocol buffers(简称protobuf)是google 的一种数据交换的格式，它独立于语言，独立于平台。
+
+* protobuf是google开发的一个数据传输格式，类似json
+* protobuf是二进制的、结构化的，所以比json的数据量更小，也更对象化
+* protobuf不是像json直接明文的，这个是定义对象结构，然后由protbuf库去把对象自动转换成二进制，用的时候再自动反解过来的。传输对我们是透明的！我们只管传输的对象就可以了
+
+
+
+# 二、再学习protobuf
+
+## 1、安装protobuf
+
+### 1）安装 Protocol Compiler
+参考：
+[Protocol Compiler Installation https://github.com/google/protobuf](https://github.com/google/protobuf)
+
+有两种方式，一种是自己编译，一种是下载然后把*protoc*放在*/usr/bin*即可。我选的后者，本地命令如下：
+
+```
+# 下载
+在 https://github.com/google/protobuf/releases 下载 protoc-3.5.1-osx-x86_64.zip
+# 解压
+unzip protoc-3.5.1-osx-x86_64.zip -d protoc
+# 拷贝
+sudo cp protoc/bin/protoc /usr/bin/
+# 增加可执行的权限
+sudo chmod +x /usr/bin/protoc
+```
+
+### 2）安装 python package
+
+```
+sudo pip3 install protobuf
+```
+
+## 2、运行protobuf demo
+参考：
+[Protocol Buffer Basics: Python https://developers.google.com/protocol-buffers/docs/pythontutorial](https://developers.google.com/protocol-buffers/docs/pythontutorial)
+
+[proto3和proto2的区别 https://superlc320.gitbooks.io/protocol-buffers-3-study-notes/content/proto3he_proto2_de_qu_bie.html](https://superlc320.gitbooks.io/protocol-buffers-3-study-notes/content/proto3he_proto2_de_qu_bie.html)
+
+官方的demo实现了一个简易通讯录，可以将联系人写入文件，并可以从文件中读取联系人。
+
+```
+python版本3.6.0
+protoc版本3.5.1
+# 编译生成addressbook_pb2.py
+cd ~/protobuf_demo; protoc --python_out=. addressbook.proto
+# 添加联系人
+python3 add_person.py address.txt
+# 读取联系人
+python3 list_people.py address.txt
+```
+
+![运行结果](https://upload-images.jianshu.io/upload_images/3781366-17dd38c3a14ab38a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+# 三、gRPC学习
+
+## 1、安装
+参考：
+[https://grpc.io/docs/quickstart/python.html](https://grpc.io/docs/quickstart/python.html)
+
+```
+# Install gRPC
+sudo pip3 install grpcio
+# Install gRPC tools 
+sudo pip3 install grpcio-tools
+```
+
+
 
 https://developers.google.com/protocol-buffers/docs/pythontutorial
 
-Protocol Buffers 是一种平台无关、语言无关、可扩展的用来序列化结构化数据的数据交换格式。
 
+grpc quick start
+https://grpc.io/docs/quickstart/python.html
+
+example
+https://grpc.io/docs/tutorials/basic/python.html#example-code-and-setup
+
+
+问题 ：
+1、并发 futures
+2、安全认证
+https://grpc.io/docs/guides/auth.html#credential-types
+
+
+https://grpc.io/grpc/python/grpc.html?highlight=add_secure_port#grpc.Server.add_secure_port
+
+
+ssl_channel_credentials
+
+ssl_server_credentials
+
+https://liusha.me/2017/07/28/grpc_learning_4/
+
+https://segmentfault.com/a/1190000007933303
