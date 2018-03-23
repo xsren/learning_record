@@ -43,6 +43,7 @@ def guide_get_one_feature(stub, point):
 
 
 def guide_get_feature(stub):
+    """根据location获取与之匹配的name"""
     guide_get_one_feature(stub,
                           route_guide_pb2.Point(
                               latitude=409146138, longitude=-746188906))
@@ -50,6 +51,7 @@ def guide_get_feature(stub):
 
 
 def guide_list_features(stub):
+    """列出一个矩形中符合条件的点"""
     rectangle = route_guide_pb2.Rectangle(
         lo=route_guide_pb2.Point(latitude=400000000, longitude=-750000000),
         hi=route_guide_pb2.Point(latitude=420000000, longitude=-730000000))
@@ -69,6 +71,7 @@ def generate_route(feature_list):
 
 
 def guide_record_route(stub):
+    """随机生成一些点，然后传给server，统计共有多少点？命中了多少点？点的总距离？总共花了多长时间？"""
     feature_list = route_guide_resources.read_route_guide_database()
 
     route_iterator = generate_route(feature_list)
@@ -93,6 +96,7 @@ def generate_messages():
 
 
 def guide_route_chat(stub):
+    """client给server传一批RouteNote（包含了message和location信息），server判断如果这个点之前传过则返回之前点的信息"""
     responses = stub.RouteChat(generate_messages())
     for response in responses:
         print("Received message %s at %s" % (response.message,

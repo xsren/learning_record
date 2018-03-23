@@ -13,11 +13,11 @@
 # limitations under the License.
 """The Python implementation of the gRPC route guide server."""
 
-from concurrent import futures
-import time
 import math
+import time
 
 import grpc
+from concurrent import futures
 
 import route_guide_pb2
 import route_guide_pb2_grpc
@@ -62,6 +62,7 @@ class RouteGuideServicer(route_guide_pb2_grpc.RouteGuideServicer):
         self.db = route_guide_resources.read_route_guide_database()
 
     def GetFeature(self, request, context):
+        """根据location获取与之匹配的name"""
         feature = get_feature(self.db, request)
         if feature is None:
             return route_guide_pb2.Feature(name="", location=request)
@@ -69,6 +70,7 @@ class RouteGuideServicer(route_guide_pb2_grpc.RouteGuideServicer):
             return feature
 
     def ListFeatures(self, request, context):
+        """列出一个矩形中符合条件的点"""
         left = min(request.lo.longitude, request.hi.longitude)
         right = max(request.lo.longitude, request.hi.longitude)
         top = max(request.lo.latitude, request.hi.latitude)
@@ -81,6 +83,7 @@ class RouteGuideServicer(route_guide_pb2_grpc.RouteGuideServicer):
                 yield feature
 
     def RecordRoute(self, request_iterator, context):
+        """随机生成一些点，然后传给server，统计共有多少点？命中了多少点？点的总距离？总共花了多长时间？"""
         point_count = 0
         feature_count = 0
         distance = 0.0
@@ -103,6 +106,7 @@ class RouteGuideServicer(route_guide_pb2_grpc.RouteGuideServicer):
             elapsed_time=int(elapsed_time))
 
     def RouteChat(self, request_iterator, context):
+        """client给server传一批RouteNote（包含了message和location信息），server判断如果这个点之前传过则返回之前点的信息"""
         prev_notes = []
         for new_note in request_iterator:
             for prev_note in prev_notes:
