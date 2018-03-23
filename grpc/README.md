@@ -187,6 +187,7 @@ go get -u github.com/golang/protobuf/protoc-gen-go
 
 # 生成 gRPC golang stub 类
 sh gen_grpc_stub_go.sh
+# 需要注释掉helloworld.pb.go第19行： import _ "github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api"
 # 生成 gRPC python stub 类
 sh gen_grpc_stub_python.sh
 # 生成网关代码
