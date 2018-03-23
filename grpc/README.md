@@ -166,6 +166,9 @@ python3 greeter_client.py
 
 * [grpc-gateway https://github.com/grpc-ecosystem/grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)
 
+* [gRPC helloworld service, RESTful JSON API gateway and swagger UI http://www.cnblogs.com/lienhua34/p/6285829.html](http://www.cnblogs.com/lienhua34/p/6285829.html)
+
+
 可以使用使用grpc-gateway生成一个反向代理，将接收的RESTful JSON API 转化为 gRPC。
 
 ![grpc_gateway.png](https://upload-images.jianshu.io/upload_images/3781366-fb1f6b28eb5b8f44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
