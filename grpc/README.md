@@ -211,5 +211,45 @@ http://localhost:8080/swagger-ui/
 
 # 六、TODO：
 
-* 1、能否使用多进程或者异步的方式提高server的并发？
-* 2、深入研究grpc-gateway的高级选项。
+* 1、深入研究grpc-gateway的高级选项。
+
+
+# 七、疑问解答：
+
+### Question1: gRPC client能使用代理吗？
+Answer：
+
+官方的client API并没有提供设置proxy的选项，可行的几种方案：
+
+* 1、通过设置系统的代理
+$ echo $http_proxy
+http://httpproxy.mydomain:8080
+* 2、通过nginx、haproxy等设置一个反向代理
+
+### Question2: protobuf的默认值是？
+Answer:
+以下只针对proto3
+参考[https://developers.google.com/protocol-buffers/docs/proto3](https://developers.google.com/protocol-buffers/docs/proto3)
+
+```
+For strings, the default value is the empty string. For bytes, the default value is empty bytes.
+For bools, the default value is false.
+For numeric types, the default value is zero.
+For enums, the default value is the first defined enum value, which must be 0.
+For message fields, the field is not set. Its exact value is language-dependent. See the generated code guide for details.
+```
+
+
+### Question3: gRPC如何认证和授权？
+
+* SSL/TLS
+* Token-based authentication with Google(包含了Oauth2和JWT的方式)
+* 自己扩展，官方提供API可以自行扩展认证方式（找到了go的实现方式）
+
+### Question4: gRPC的并发问题？
+
+* 多线程（不支持多进程）
+* 异步，有一个热心网友的实现
+* 负载均衡
+
+
